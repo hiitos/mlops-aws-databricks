@@ -57,7 +57,7 @@ module "codebuild" {
 # }
 
 ############################################
-################ CodePipeline ###############
+################ CodePipeline ##############
 ############################################
 locals {
   codepipeline_policy = templatefile("${path.module}/iam_policy_json/codepipeline_policy.json.tpl", {
@@ -87,4 +87,34 @@ module "codepipeline" {
   artifact_store    = module.codepipeline_s3.bucket_name
   codecommit_repo   = module.codecommit.repository_name
   codebuild_project = module.codebuild.codebuild_project_name
+}
+
+############################################
+################ CloudWatch ################
+############################################
+locals {
+  eventbridge_policy = templatefile("${path.module}/iam_policy_json/eventbridge_policy.json.tpl", {
+    CODEPIPELINE_ARN = module.codepipeline.pipeline_arn
+  })
+}
+module "eventbridge_role" {
+  source     = "./modules/aws_iam_role"
+  role_name  = "${var.terraform_project_name}-eventbridge-role"
+  service    = "events.amazonaws.com"
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
+}
+
+module "eventbridge_policy" {
+  source      = "./modules/aws_iam_policy"
+  policy_name = "${var.terraform_project_name}_eventbridge_policy"
+  role_name   = module.eventbridge_role.role_name
+  policy_json = local.eventbridge_policy
+}
+
+module "cloudwatch" {
+  source                = "./modules/aws_cloudwatch"
+  eventbridge_rule_name = "${var.terraform_project_name}-eventbridge-rule"
+  codecommit_arn        = module.codecommit.repository_arn
+  codepipeline_arn      = module.codepipeline.pipeline_arn
+  eventbridge_role      = module.eventbridge_role.role_arn
 }
