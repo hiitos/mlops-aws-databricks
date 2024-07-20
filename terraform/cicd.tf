@@ -26,13 +26,12 @@ module "codebuild_role" {
   service    = "codebuild.amazonaws.com"
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
 }
-# module "codebuild_policy" {
-#   source      = "./modules/aws_iam_policy"
-#   policy_name = "${var.terraform_project_name}_codebuild_policy"
-#   role_name   = module.codebuild_role.role_name
-#   # policy_json = data.template_file.codebuild_policy.rendered
-#   policy_json = local.codebuild_policy
-# }
+module "codebuild_policy" {
+  source      = "./modules/aws_iam_policy"
+  policy_name = "${var.terraform_project_name}_codebuild_policy"
+  role_name   = module.codebuild_role.role_name
+  policy_json = local.codebuild_policy
+}
 module "codebuild" {
   source                 = "./modules/aws_codebuild"
   codebuild_project_name = "${var.terraform_project_name}-terraform-build"

@@ -1,4 +1,14 @@
 {
   "Version": "2012-10-17",
-  "Statement": []
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:*",
+        "s3:*",
+        "ssm:*"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
