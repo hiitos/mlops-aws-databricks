@@ -20,11 +20,6 @@
       "label": "task: change aws profiles",
       "type": "shell",
       "command": "export AWS_PROFILE=dev-cli"
-    },
-    {
-      "label": "task: pre connect codecommit",
-      "type": "shell",
-      "command": "git config --global credential.helper '!aws codecommit credential-helper $@' && git config --global credential.UseHttpPath true"
     }
   ]
 }
