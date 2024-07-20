@@ -67,11 +67,13 @@ resource "aws_iam_role_policy" "codepipeline_codecommit_policy" {
       "Effect": "Allow",
       "Action": [
         "codecommit:GitPull",
+        "codecommit:GitPush",
         "codecommit:GetRepository",
         "codecommit:ListBranches",
         "codecommit:GetBranch",
         "codecommit:BatchGetRepositories",
-        "codecommit:GetRepositoryTriggers"
+        "codecommit:GetRepositoryTriggers",
+        "codecommit:CreateBranch"
       ],
       "Resource": "arn:aws:codecommit:${var.terraform_region}:${var.terraform_account_id}:${module.codecommit.repository_name}"
     }

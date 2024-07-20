@@ -17,8 +17,9 @@ resource "aws_codepipeline" "this" {
       version          = "1"
       output_artifacts = ["SourceArtifact"]
       configuration = {
-        RepositoryName = var.codecommit_repo
-        BranchName     = "master" # TODO ここはいい感じに変更する
+        RepositoryName       = var.codecommit_repo
+        BranchName           = "master" # TODO ここはいい感じに変更する
+        PollForSourceChanges = "false"  # ポーリングを無効化
       }
     }
   }
