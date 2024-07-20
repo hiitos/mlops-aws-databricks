@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "task: hello",
+      "type": "shell",
+      "command": "echo Hello World"
+    },
+    {
+      "label": "task: current aws profile",
+      "type": "shell",
+      "command": "aws configure list"
+    },
+    {
+      "label": "task: list aws profiles",
+      "type": "shell",
+      "command": "cat ~/.aws/credentials"
+    },
+    {
+      "label": "task: change aws profiles",
+      "type": "shell",
+      "command": "export AWS_PROFILE=dev-cli"
+    }
+  ]
+}

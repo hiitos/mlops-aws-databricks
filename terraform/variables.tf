@@ -1,3 +1,18 @@
+variable "project_name" {
+  description = "The name of this project."
+  type        = string
+}
+
+variable "account_id" {
+  description = "The AWS account ID."
+  type        = string
+}
+
+variable "region" {
+  description = "The AWS region."
+  type        = string
+}
+
 variable "databricks_host" {
   description = "The Databricks host URL."
   type        = string

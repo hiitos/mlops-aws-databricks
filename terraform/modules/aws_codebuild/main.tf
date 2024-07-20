@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "this" {
-  name         = var.project_name
+  name         = var.codebuild_project_name
   service_role = var.service_role
 
   source {
@@ -14,12 +14,14 @@ phases:
   pre_build:
     commands:
       - pip install awscli
-      - curl -LO https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
-      - unzip terraform_0.14.7_linux_amd64.zip
+      - curl -LO https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
+      - unzip terraform_1.9.2_linux_amd64.zip
       - mv terraform /usr/local/bin/
   build:
     commands:
+      - cd terraform
       - terraform init
+      - terraform plan
       - terraform apply -auto-approve
 EOF
   }
@@ -37,8 +39,4 @@ EOF
       value = "example_value"
     }
   }
-}
-
-output "project_name" {
-  value = aws_codebuild_project.this.name
 }

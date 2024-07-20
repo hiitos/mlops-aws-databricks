@@ -1,4 +1,4 @@
-variable "app_name" {
+variable "codedeploy_app_name" {
   description = "The name of the CodeDeploy application"
   type        = string
 }
