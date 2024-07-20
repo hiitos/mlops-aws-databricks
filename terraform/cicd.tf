@@ -17,12 +17,22 @@ module "codecommit" {
 ############################################
 ################ CodeBuild #################
 ############################################
+locals {
+  codebuild_policy = templatefile("${path.module}/iam_policy_json/codebuild_policy.json.tpl", {})
+}
 module "codebuild_role" {
   source     = "./modules/aws_iam_role"
   role_name  = "${var.terraform_project_name}-codebuild-role"
   service    = "codebuild.amazonaws.com"
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
 }
+# module "codebuild_policy" {
+#   source      = "./modules/aws_iam_policy"
+#   policy_name = "${var.terraform_project_name}_codebuild_policy"
+#   role_name   = module.codebuild_role.role_name
+#   # policy_json = data.template_file.codebuild_policy.rendered
+#   policy_json = local.codebuild_policy
+# }
 module "codebuild" {
   source                 = "./modules/aws_codebuild"
   codebuild_project_name = "${var.terraform_project_name}-terraform-build"
@@ -47,8 +57,15 @@ module "codebuild" {
 # }
 
 ############################################
-################ CodePipeline ###############
+################ CodePipeline ##############
 ############################################
+locals {
+  codepipeline_policy = templatefile("${path.module}/iam_policy_json/codepipeline_policy.json.tpl", {
+    REGION          = var.terraform_region,
+    ACCOUNT_ID      = var.terraform_account_id,
+    REPOSITORY_NAME = module.codecommit.repository_name
+  })
+}
 module "codepipeline_role" {
   source     = "./modules/aws_iam_role"
   role_name  = "${var.terraform_project_name}-codepipeline-role"
@@ -56,30 +73,12 @@ module "codepipeline_role" {
   policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
 }
 
-resource "aws_iam_role_policy" "codepipeline_codecommit_policy" {
-  name   = "${var.terraform_project_name}_codepipeline_codecommit_policy"
-  role   = module.codepipeline_role.role_name
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "codecommit:GitPull",
-        "codecommit:GitPush",
-        "codecommit:GetRepository",
-        "codecommit:ListBranches",
-        "codecommit:GetBranch",
-        "codecommit:BatchGetRepositories",
-        "codecommit:GetRepositoryTriggers",
-        "codecommit:CreateBranch"
-      ],
-      "Resource": "arn:aws:codecommit:${var.terraform_region}:${var.terraform_account_id}:${module.codecommit.repository_name}"
-    }
-  ]
-}
-POLICY
+module "codepipeline_policy" {
+  source      = "./modules/aws_iam_policy"
+  policy_name = "${var.terraform_project_name}_codepipeline_policy"
+  role_name   = module.codepipeline_role.role_name
+  # policy_json = data.template_file.codepipeline_policy.rendered
+  policy_json = local.codepipeline_policy
 }
 module "codepipeline" {
   source            = "./modules/aws_codepipeline"
@@ -88,4 +87,34 @@ module "codepipeline" {
   artifact_store    = module.codepipeline_s3.bucket_name
   codecommit_repo   = module.codecommit.repository_name
   codebuild_project = module.codebuild.codebuild_project_name
+}
+
+############################################
+################ CloudWatch ################
+############################################
+locals {
+  eventbridge_policy = templatefile("${path.module}/iam_policy_json/eventbridge_policy.json.tpl", {
+    CODEPIPELINE_ARN = module.codepipeline.pipeline_arn
+  })
+}
+module "eventbridge_role" {
+  source     = "./modules/aws_iam_role"
+  role_name  = "${var.terraform_project_name}-eventbridge-role"
+  service    = "events.amazonaws.com"
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchEventsFullAccess"
+}
+
+module "eventbridge_policy" {
+  source      = "./modules/aws_iam_policy"
+  policy_name = "${var.terraform_project_name}_eventbridge_policy"
+  role_name   = module.eventbridge_role.role_name
+  policy_json = local.eventbridge_policy
+}
+
+module "cloudwatch" {
+  source                = "./modules/aws_cloudwatch"
+  eventbridge_rule_name = "${var.terraform_project_name}-eventbridge-rule"
+  codecommit_arn        = module.codecommit.repository_arn
+  codepipeline_arn      = module.codepipeline.pipeline_arn
+  eventbridge_role      = module.eventbridge_role.role_arn
 }
