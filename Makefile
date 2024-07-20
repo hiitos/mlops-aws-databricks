@@ -1,7 +1,7 @@
-.PHONY terraform-plan terraform-apply
+.PHONY: terraform-plan terraform-apply
 
 terraform-plan:
 	cd terraform && terraform plan
 
 terraform-apply:
-	cd terraform && terraform apply
+	cd scripts && ./register_tfvars_to_ssm.sh && cd ../terraform && terraform apply

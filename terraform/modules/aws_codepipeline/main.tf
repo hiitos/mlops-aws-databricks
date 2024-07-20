@@ -18,7 +18,7 @@ resource "aws_codepipeline" "this" {
       output_artifacts = ["SourceArtifact"]
       configuration = {
         RepositoryName = var.codecommit_repo
-        BranchName     = "main"
+        BranchName     = "master" # TODO ここはいい感じに変更する
       }
     }
   }

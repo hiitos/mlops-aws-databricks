@@ -48,7 +48,7 @@ resource "databricks_job" "name_of_my_job" {
   git_source {
     url      = "https://github.com/udaysat-db/test-repo.git"
     provider = "gitHub"
-    branch   = "main"
+    branch   = "main" # TODO ここはいい感じに変更する
   }
 
   # Create blocks for Jobs Clusters here #

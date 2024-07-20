@@ -5,7 +5,7 @@ terraform {
   // awsプロバイダーのバージョンを指定
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
       # version = "~> 5.0"
     }
     databricks = {
@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "${var.region}"
+  region = var.terraform_region
 }
 
 # provider "databricks" {
