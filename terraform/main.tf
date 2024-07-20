@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-northeast-1" # 適切なAWSリージョンに変更
+  region = "${var.region}"
 }
 
 # provider "databricks" {

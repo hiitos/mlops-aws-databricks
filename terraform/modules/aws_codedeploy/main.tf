@@ -1,5 +1,5 @@
 resource "aws_codedeploy_app" "this" {
-  name = var.app_name
+  name = var.codedeploy_app_name
 }
 
 resource "aws_codedeploy_deployment_group" "this" {
@@ -13,12 +13,4 @@ resource "aws_codedeploy_deployment_group" "this" {
     value = "MyEC2Instance"
     type  = "KEY_AND_VALUE"
   }
-}
-
-output "app_name" {
-  value = aws_codedeploy_app.this.name
-}
-
-output "deployment_group_name" {
-  value = aws_codedeploy_deployment_group.this.deployment_group_name
 }

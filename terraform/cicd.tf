@@ -3,7 +3,7 @@
 ############################################
 module "codepipeline_s3" {
   source      = "./modules/aws_s3"
-  bucket_name = "codepipeline-test-bucket"
+  bucket_name = "${var.project_name}-codepipeline-test-bucket"
 }
 
 ############################################
@@ -11,7 +11,7 @@ module "codepipeline_s3" {
 ############################################
 module "codecommit" {
   source          = "./modules/aws_codecommit"
-  repository_name = "mlops-test"
+  repository_name = var.project_name
 }
 
 ############################################
@@ -19,14 +19,14 @@ module "codecommit" {
 ############################################
 module "codebuild_role" {
   source     = "./modules/aws_iam_role"
-  role_name  = "codebuild-role"
+  role_name  = "${var.project_name}-codebuild-role"
   service    = "codebuild.amazonaws.com"
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
 }
 module "codebuild" {
-  source       = "./modules/aws_codebuild"
-  project_name = "terraform-build"
-  service_role = module.codebuild_role.role_arn
+  source                 = "./modules/aws_codebuild"
+  codebuild_project_name = "${var.project_name}-terraform-build"
+  service_role           = module.codebuild_role.role_arn
 }
 
 ############################################
@@ -34,15 +34,15 @@ module "codebuild" {
 ############################################
 # module "codedeploy_role" {
 #   source     = "./modules/aws_iam_role"
-#   role_name  = "codedeploy-role"
+#   role_name  = "${var.project_name}-codedeploy-role"
 #   service    = "codedeploy.amazonaws.com"
 #   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
 # }
 
 # module "codedeploy" {
 #   source                = "./modules/aws_codedeploy"
-#   app_name              = "CodeDeployApp"
-#   deployment_group_name = "deployment-group"
+#   app_name              = "${var.project_name}-codedeploy-app"
+#   deployment_group_name = "${var.project_name}-deployment-group"
 #   service_role          = module.codedeploy_role.role_arn
 # }
 
@@ -51,15 +51,39 @@ module "codebuild" {
 ############################################
 module "codepipeline_role" {
   source     = "./modules/aws_iam_role"
-  role_name  = "codepipeline-role"
+  role_name  = "${var.project_name}-codepipeline-role"
   service    = "codepipeline.amazonaws.com"
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodePipeline_FullAccess"
+}
+
+resource "aws_iam_role_policy" "codepipeline_codecommit_policy" {
+  name   = "${var.project_name}_codepipeline_codecommit_policy"
+  role   = module.codepipeline_role.role_name
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "codecommit:GitPull",
+        "codecommit:GetRepository",
+        "codecommit:ListBranches",
+        "codecommit:GetBranch",
+        "codecommit:BatchGetRepositories",
+        "codecommit:GetRepositoryTriggers"
+      ],
+      "Resource": "arn:aws:codecommit:${var.region}:${var.account_id}:${module.codecommit.repository_name}"
+    }
+  ]
+}
+POLICY
 }
 module "codepipeline" {
   source            = "./modules/aws_codepipeline"
-  pipeline_name     = "mlops-test-pipeline"
+  pipeline_name     = "${var.project_name}-pipeline"
   codepipeline_role = module.codepipeline_role.role_arn
   artifact_store    = module.codepipeline_s3.bucket_name
   codecommit_repo   = module.codecommit.repository_name
-  codebuild_project = module.codebuild.project_name
+  codebuild_project = module.codebuild.codebuild_project_name
 }

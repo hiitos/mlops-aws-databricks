@@ -1,4 +1,4 @@
-variable "project_name" {
+variable "codebuild_project_name" {
   description = "The name of the CodeBuild project"
   type        = string
 }

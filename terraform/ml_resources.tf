@@ -1,18 +1,18 @@
 ############################################
 ################ S3 Buckets ################
 ############################################
-module "output_s3" {
-  source      = "./modules/aws_s3"
-  bucket_name = "databricks-output-test-bucket"
-}
+# module "output_s3" {
+#   source      = "./modules/aws_s3"
+#   bucket_name = "${var.project_name}-databricks-output-test-bucket"
+# }
 
 ############################################
 ################ databricks ################
 ############################################
 # module "databricks" {
 #   source           = "./modules/databricks"
-#   workspace_name   = "mlops-test-workspace"
-#   cluster_name     = "mlops-test-cluster"
+#   workspace_name   = "${var.project_name}-workspace"
+#   cluster_name     = "${var.project_name}-cluster"
 #   job_name         = "example-job"
 #   notebook_path    = "/Users/example@example.com/TestNotebook"
 #   databricks_host  = var.databricks_host
