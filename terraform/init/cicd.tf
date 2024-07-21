@@ -18,7 +18,7 @@ module "codecommit" {
 ################ CodeBuild #################
 ############################################
 locals {
-  codebuild_policy = templatefile("${path.module}/iam_policy_json/codebuild_policy.json.tpl", {})
+  codebuild_policy = templatefile("../iam_policy_json/codebuild_policy.json.tpl", {})
 }
 module "codebuild_role" {
   source     = "../modules/aws_iam_role"
@@ -59,7 +59,7 @@ module "codebuild" {
 ################ CodePipeline ##############
 ############################################
 locals {
-  codepipeline_policy = templatefile("${path.module}/iam_policy_json/codepipeline_policy.json.tpl", {
+  codepipeline_policy = templatefile("../iam_policy_json/codepipeline_policy.json.tpl", {
     REGION          = var.terraform_region,
     ACCOUNT_ID      = var.terraform_account_id,
     REPOSITORY_NAME = module.codecommit.repository_name
@@ -92,7 +92,7 @@ module "codepipeline" {
 ################ CloudWatch ################
 ############################################
 locals {
-  eventbridge_policy = templatefile("${path.module}/iam_policy_json/eventbridge_policy.json.tpl", {
+  eventbridge_policy = templatefile("../iam_policy_json/eventbridge_policy.json.tpl", {
     CODEPIPELINE_ARN = module.codepipeline.pipeline_arn
   })
 }
