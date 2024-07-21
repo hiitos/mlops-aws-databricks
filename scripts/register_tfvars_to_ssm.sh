@@ -27,7 +27,7 @@ while IFS= read -r line; do
     var_value=$(echo "$line" | cut -d '=' -f 2 | xargs | sed 's/"//g')
 
     # SSMパラメータストアに登録（出力を無視）
-    aws ssm put-parameter --name "$var_name" --value "$var_value" --type "String" --overwrite >/dev/null 2>&1
+    aws ssm put-parameter --name "/terraform/$var_name" --value "$var_value" --type "String" --overwrite >/dev/null 2>&1
 
-    echo "Registered $var_name with value $var_value to SSM Parameter Store"
+    echo "Registered /terraform/$var_name with value $var_value to SSM Parameter Store"
 done < "$TFVARS_FILE"
