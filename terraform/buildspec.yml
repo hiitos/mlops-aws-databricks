@@ -31,8 +31,8 @@ phases:
     commands:
       - cd terraform
       - terraform init
-      - terraform plan -target=ml_resources
-      - terraform apply -auto-approve -target=ml_resources
+      - terraform plan
+      - terraform apply -auto-approve
 artifacts:
   files:
     - "**/*"
