@@ -21,6 +21,8 @@ phases:
       - terraform --version
   pre_build:
     commands:
+      - echo "Disabling pyenv version management temporarily"
+      - export PYENV_VERSION=system
       - echo "Fetching and setting SSM parameters"
       - aws ssm get-parameters-by-path --path "/terraform" --recursive --query "Parameters[*].{Name:Name,Value:Value}" --output json | jq -r '.[] | "export \(.Name | gsub("^/terraform/"; "TF_VAR_"))=\(.Value)"' | while read -r line; do eval $line; done
   build:
