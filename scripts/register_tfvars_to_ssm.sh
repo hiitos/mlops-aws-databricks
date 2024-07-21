@@ -7,15 +7,15 @@ then
     exit 1
 fi
 
-# ../terraform/terraform.tfvarsファイルの存在を確認
-TFVARS_FILE="../terraform/terraform.tfvars"
+# ../terraform/ml_resources/terraform.tfvarsファイルの存在を確認
+TFVARS_FILE="../terraform/ml_resources/terraform.tfvars"
 
 if [ ! -f "$TFVARS_FILE" ]; then
     echo "$TFVARS_FILE file not found!"
     exit 1
 fi
 
-# ../terraform/terraform.tfvarsファイルを読み込んでSSMパラメータストアに登録
+# ../terraform/ml_resources/terraform.tfvarsファイルを読み込んでSSMパラメータストアに登録
 while IFS= read -r line; do
     # 空行とコメントを無視
     if [[ -z "$line" || "$line" == \#* ]]; then

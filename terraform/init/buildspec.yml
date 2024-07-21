@@ -10,9 +10,6 @@ phases:
       - unzip awscliv2.zip
       - ./aws/install
       - echo "Installing Terraform"
-      # - curl -LO https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
-      # - unzip -o terraform_1.9.2_linux_amd64.zip
-      # - mv terraform /usr/local/bin/
       - echo "Installing tfenv for Terraform management"
       - git clone https://github.com/tfutils/tfenv.git ~/.tfenv
       - export PATH=$PATH:$HOME/.tfenv/bin
@@ -24,12 +21,12 @@ phases:
       - echo "Disabling pyenv version management temporarily"
       - export PYENV_VERSION=system
       - echo "Fetching and setting SSM parameters"
-      - aws ssm get-parameters-by-path --path "/terraform" --recursive --query "Parameters[*].{Name:Name,Value:Value}" --output json | jq -r '.[] | "\(.Name | gsub("^/terraform/"; "")) = \"\(.Value)\""' > terraform/terraform.tfvars
+      - aws ssm get-parameters-by-path --path "/terraform" --recursive --query "Parameters[*].{Name:Name,Value:Value}" --output json | jq -r '.[] | "\(.Name | gsub("^/terraform/"; "")) = \"\(.Value)\""' > terraform/ml_resources/terraform.tfvars
       - echo "terraform.tfvars contents:"
-      - cat terraform/terraform.tfvars
+      - cat terraform/ml_resources/terraform.tfvars
   build:
     commands:
-      - cd terraform
+      - cd terraform/ml_resources
       - terraform init
       - terraform plan
       - terraform apply -auto-approve

@@ -4,7 +4,7 @@ resource "aws_codebuild_project" "this" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "./terraform/buildspec.yml"
+    buildspec = "./terraform/init/buildspec.yml"
   }
 
   artifacts {
