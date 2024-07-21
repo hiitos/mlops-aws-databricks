@@ -1,10 +1,10 @@
 ############################################
 ################ S3 Buckets ################
 ############################################
-# module "output_s3" {
-#   source      = "./modules/aws_s3"
-#   bucket_name = "${var.terraform_project_name}-databricks-output-test-bucket"
-# }
+module "output_s3" {
+  source      = "./modules/aws_s3"
+  bucket_name = "${var.terraform_project_name}-databricks-output-test-bucket"
+}
 
 ############################################
 ################ databricks ################
