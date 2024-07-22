@@ -1,5 +1,70 @@
 {
   "workbench.colorCustomizations": {
-    "titleBar.activeForeground": "#9478e6"
+    "titleBar.activeForeground": "#9478e6",
+    "editorGroup.border": "#9478e6",
+    "input.border": "#9478e6",
+    "statusBar.border": "#9478e6",
+    "activityBar.border": "#9478e6",
+    "sideBar.border": "#9478e6",
+    "tab.activeBorder": "#9478e6",
+    "activityBar.foreground": "#9478e6"
   }
 }
+// {
+//   "workbench.colorCustomizations": {
+//     "editor.background": "エディタの背景色",
+//     "editor.foreground": "エディタの前景色",
+//     "editorGroup.border": "複数のエディタを横に並べた時の境界線の色",
+//     "editorLineNumber.foreground": "エディタの行番号の色",
+//     "editor.selectionBackground": "エディタカーソルの背景色",
+//     "errorForeground": "エラーメッセージの全体的な前景色",
+
+//     "_comment": "ボタン、バッジ",
+//     "button.background": "ボタンの背景色",
+//     "badge.background": "バッジ（検索結果とかで数字が表示されるやつ）の背景色",
+
+//     "_comment": "入力制御",
+//     "input.background": "入力ボックスの背景",
+//     "input.border": "入力ボックスの枠線",
+//     "input.placeholderForeground": "プレースホルダ",
+
+//     "_comment": "スクロールバー",
+//     "scrollbarSlider.background": "スクロールバー背景色",
+//     "scrollbarSlider.hoverBackground": "ホバー時のスクロールバー背景色",
+
+//     "_comment": "下のステータスバー",
+//     "statusBar.background": "ワークスペースが開いていない時のステータスバー背景色",
+//     "statusBar.foreground": " ワークスペースが開いていない時のステータスバー前景色
+// ",
+//     "statusBar.noFolderBackground": "フォルダーが開いていない時のステータスバー背景色",
+//     "statusBar.debuggingBackground": "プログラムをデバッグしている時の背景色",
+//     "statusBar.border": "ステータスバーの枠線",
+//     "statusBarItem.prominentBackground": "ステータスバー内で目立たせる項目に対する背景色",
+
+//     "_comment": "エクスプローラのリストやツリー",
+//     "list.activeSelectionBackground": "選択された項目のリスト/ツリー背景色",
+//     "list.hoverBackground": "ホバー時のリスト/ツリーの背景",
+//     "list.invalidItemForeground": "無効な項目のリスト/ツリーの文字色",
+
+//     "_comment": "アクティビティバー（左端または右端にあるバー）",
+//     "activityBar.background": "アクティビティバーの背景色",
+//     "activityBar.foreground": "アイコンの色",
+//     "activityBar.border": "アクティビティバーとサイドバーの境界線の色",
+//     "activityBarBadge.background": "通知バッジの背景色",
+//     "activityBarBadge.foreground": "通知バッジの文字色",
+
+//     "_comment": "サイドバー（エクスプローラや検索のようなビュー）",
+//     "sideBar.background": "サイドバーの背景色",
+//     "sideBar.foreground": "サイドバーの文字色",
+//     "sideBar.border": "サイドバーとエディターの境界線の色",
+//     "sideBarTitle.foreground": "サイドバータイトルの前景色",
+
+//     "_comment": "タブ",
+//     "editorGroupHeader.tabsBackground": "タブの背景色",
+//     "tab.activeBackground": "アクティブなタブの背景色",
+//     "tab.activeForeground": "アクティブなタブの文字色",
+//     "tab.border": "タブを区切るための境界線",
+//     "tab.activeBorder": "アクティブなタブの下の線",
+//     "tab.inactiveBackground": "非アクティブな色の背景色",
+//     "tab.inactiveForeground": "非アクティブなタブの文字色",
+//   },

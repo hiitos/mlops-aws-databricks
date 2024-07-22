@@ -8,13 +8,13 @@
 - AWS CodePipeline
 - AWS CodeBuild
 - AWS CodeDeploy
+- AWS S3
 - Databricks Workspace
 - Databricks クラスタ
-- Databricks ジョブ
+- Databricks ジョブ(ワークフロー)
 - Databricks unity catalog
 - Databricks unity schema
-- Databricks unity table
-- AWS S3
+- Databricks unity volume
 
 ## codecommit
 
