@@ -19,7 +19,7 @@ provider "aws" {
   region = var.terraform_region
 }
 
-# provider "databricks" {
-#   host  = var.databricks_host
-#   token = var.databricks_token
-# }
+provider "databricks" {
+  host  = var.terraform_databricks_host
+  token = var.terraform_databricks_token
+}
