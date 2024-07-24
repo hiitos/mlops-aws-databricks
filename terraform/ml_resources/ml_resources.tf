@@ -21,7 +21,7 @@ module "databricks_test_cluster" {
   cluster_num_workers             = 1
 }
 
-module "databricks_test_notebook" {
+module "databricks_test_notebook_sample1" {
   source = "../modules/databricks_notebook"
   # notebook_path_prefix       = "/Workspace/Users/sample@gmail.com"
   notebook_path_prefix       = "/Workspace/Shared/Notebooks"
@@ -30,7 +30,7 @@ module "databricks_test_notebook" {
   local_notebook_path_prefix = "../../notebook"
 }
 
-module "databricks_test_notebook" {
+module "databricks_test_notebook_sample2" {
   source = "../modules/databricks_notebook"
   # notebook_path_prefix       = "/Workspace/Users/sample@gmail.com"
   notebook_path_prefix       = "/Workspace/Shared/Notebooks"
@@ -55,20 +55,20 @@ module "databricks_test_job" {
   ]
 }
 
-# module "databricks_catalog" {
-#   source       = "../modules/databricks_catalog_schema_table"
-#   catalog_name = var.terraform_catalog_name
-# }
+module "databricks_catalog" {
+  source       = "../modules/databricks_catalog"
+  catalog_name = var.terraform_catalog_name
+}
 
-# module "databricks_schema" {
-#   source       = "../modules/databricks_catalog_schema_table"
-#   schema_name  = var.terraform_schema_name
-#   catalog_name = module.databricks_catalog.catalog_name
-# }
+module "databricks_schema" {
+  source      = "../modules/databricks_schema"
+  catalog_id  = module.databricks_catalog.catalog_id
+  schema_name = var.terraform_schema_name
+}
 
-# module "databricks_table" {
-#   source       = "../modules/databricks_catalog_schema_table"
-#   table_name   = var.terraform_table_name
-#   catalog_name = module.databricks_catalog.catalog_name
-#   schema_name  = module.databricks_schema.schema_name
-# }
+module "databricks_volume" {
+  source       = "../modules/databricks_volume"
+  volume_name  = var.terraform_volume_name
+  catalog_name = module.databricks_catalog.catalog_name
+  schema_name  = module.databricks_schema.schema_name
+}

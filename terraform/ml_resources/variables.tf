@@ -33,7 +33,7 @@ variable "terraform_schema_name" {
   type        = string
 }
 
-variable "terraform_table_name" {
-  description = "The name of the table."
+variable "terraform_volume_name" {
+  description = "The name of the Unity Volume."
   type        = string
 }
