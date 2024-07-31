@@ -24,3 +24,11 @@ python --version
 pip install git-remote-codecommit
 git remote set-url codecommit codecommit::ap-northeast-1://mlops-test-iitos
 ```
+
+## databricks
+
+```
+databricks bundle validate
+databricks bundle deploy -t dev
+databricks bundle run -t dev <job-or-pipeline-programmatic-name>
+```

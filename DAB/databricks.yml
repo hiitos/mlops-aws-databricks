@@ -1,0 +1,21 @@
+bundle:
+  name: hello-bundle
+
+resources:
+  jobs:
+    hello-job:
+      name: hello-job
+      tasks:
+        - task_key: hello-task
+          existing_cluster_id: 1234-567890-abcde123
+          notebook_task:
+            notebook_path: ./hello1.py
+        - task_key: hello-task
+          existing_cluster_id: 1234-567890-abcde123
+          notebook_task:
+            notebook_path: ./hello2.py
+
+targets:
+  dev:
+    default: true
+    # workspace_url: https://<your-databricks-instance>.cloud.databricks.com
